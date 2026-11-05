@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\SceneSetting;
 use App\Exceptions\WorkflowException;
 use App\Models\Chapter;
 use App\Models\Scene;
@@ -24,6 +25,7 @@ class SceneEditor
         return DB::transaction(function () use ($chapter, $data, $sourceIds, $author, $changeNote) {
             $scene = $chapter->scenes()->create([
                 'position' => $data['position'] ?? ((int) $chapter->scenes()->max('position') + 1),
+                'setting' => $data['setting'] ?? SceneSetting::DesertNight,
             ]);
 
             $this->write($scene, $data, $sourceIds, $author, $changeNote ?? 'Babak baru');
@@ -39,7 +41,14 @@ class SceneEditor
     {
         $this->ensureWriter($author);
 
-        return DB::transaction(fn () => $this->write($scene, $data, $sourceIds, $author, $changeNote));
+        return DB::transaction(function () use ($scene, $data, $sourceIds, $author, $changeNote) {
+            // Latar ialah hiasan visual — terus disimpan tanpa semakan.
+            if (isset($data['setting'])) {
+                $scene->update(['setting' => $data['setting']]);
+            }
+
+            return $this->write($scene, $data, $sourceIds, $author, $changeNote);
+        });
     }
 
     private function write(Scene $scene, array $data, array $sourceIds, User $author, ?string $changeNote): SceneRevision

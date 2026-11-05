@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Chapters\RelationManagers;
 
 use App\Enums\SceneLabel;
+use App\Enums\SceneSetting;
 use App\Exceptions\WorkflowException;
 use App\Filament\Actions\WorkflowActions;
 use App\Models\Scene;
@@ -40,6 +41,11 @@ class ScenesRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->components([
+            Select::make('setting')->label('Latar visual')
+                ->options(SceneSetting::class)
+                ->default(SceneSetting::DesertNight->value)
+                ->required()
+                ->helperText('Hanya landskap & objek. Nabi ﷺ dan sahabat tidak sekali-kali dipaparkan.'),
             Select::make('label')->label('Label kesahihan')
                 ->options(SceneLabel::class)
                 ->required()
@@ -71,6 +77,7 @@ class ScenesRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('position')->label('#'),
                 TextColumn::make('latestRevision.label')->label('Label')->badge(),
+                TextColumn::make('setting')->label('Latar'),
                 TextColumn::make('excerpt')->label('Isi (versi terkini)')
                     ->state(fn (Scene $record) => Str::limit(strip_tags((string) $record->latestRevision?->body_ms), 120))
                     ->wrap(),
@@ -94,6 +101,7 @@ class ScenesRelationManager extends RelationManager
                 EditAction::make()
                     ->visible(fn () => auth()->user()->canWrite())
                     ->fillForm(fn (Scene $record) => [
+                        'setting' => $record->setting?->value,
                         'label' => $record->latestRevision?->label?->value,
                         'body_ms' => $record->latestRevision?->body_ms,
                         'sources' => $record->latestRevision?->sources()->pluck('sources.id')->all() ?? [],

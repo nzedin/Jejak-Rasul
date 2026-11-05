@@ -51,6 +51,12 @@ Akaun contoh daripada seeder (kata laluan: `password`, **tukar sebelum dipasang 
 
 Seeder juga mencipta rangka arka **Hijrah** (10 bab, semuanya draf) dan senarai sumber utama tanpa nombor rujukan. Butiran rujukan perlu diisi daripada naskhah sebenar.
 
+## Latar babak
+
+Setiap babak ada **latar visual** (Kota Makkah waktu malam, padang pasir malam/siang, dalam gua, pesisir pantai, oasis waktu fajar) yang dipilih dalam panel. Latar hanya landskap & objek — Nabi ﷺ dan sahabat tidak dipaparkan. Latar ialah hiasan, jadi ia tidak melalui aliran semakan.
+
+Selepas `git pull`, jalankan `php artisan migrate` untuk menambah lajur latar.
+
 ## Aliran kandungan
 
 ```
@@ -108,7 +114,7 @@ php artisan test
 
 ## Langkah seterusnya
 
-- [x] Paparan pemain: peta perjalanan, pembaca bab, label & sumber, pilihan Yusuf, kuiz, Kad Sumber, Jurnal Saksi
+- [x] Paparan pemain: mod cerita beranimasi (satu babak satu skrin, teks muncul perkataan demi perkataan, latar beranimasi ikut lokasi, bunyi angin pilihan), peta laluan, label & sumber, pilihan Yusuf, kuiz, Kad Sumber, Jurnal Saksi
 - [x] Buka bab ikut hari (`unlock_day_offset`, dikira dalam peranti pemain)
 - [ ] Akaun pemain (kemajuan disimpan di pelayan; kini dalam `localStorage` peranti)
 - [ ] PWA (boleh dipasang & dibaca luar talian)

@@ -6,6 +6,7 @@
     <title>@yield('title', 'Jejak Rasul')</title>
     <meta name="description" content="Kembara sirah interaktif dengan sumber yang disemak.">
     <meta name="theme-color" content="#0d1726">
+    <script>document.documentElement.classList.add('js')</script>
     <link rel="stylesheet" href="{{ asset('css/jejak.css') }}">
 </head>
 <body class="@yield('body-class')">

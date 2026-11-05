@@ -1,39 +1,68 @@
 @extends('player.layout')
 
 @section('title', $arc->title.' — Jejak Rasul')
+@section('body-class', 'page-map')
+
+@php
+    $n = $chapters->count();
+    $gap = 130;
+    $height = max(1, $n) * $gap + 60;
+    $pts = $chapters->values()->map(fn ($c, $i) => [$i % 2 === 0 ? 120 : 280, 70 + $i * $gap]);
+    $d = '';
+    foreach ($pts as $i => [$x, $y]) {
+        if ($i === 0) { $d = "M{$x} {$y}"; continue; }
+        [$px, $py] = $pts[$i - 1];
+        $my = ($py + $y) / 2;
+        $d .= " C{$px} {$my} {$x} {$my} {$x} {$y}";
+    }
+@endphp
 
 @section('content')
-    <section class="arc-head" data-arc-start="{{ $arc->slug }}">
+    <div class="map-bg">@include('player.partials.scene-bg', ['setting' => 'gurun_malam', 'seed' => 3])</div>
+
+    <section class="map-head" data-arc-start="{{ $arc->slug }}">
         <p class="eyebrow">Arka</p>
         <h1>{{ $arc->title }}</h1>
         @if ($arc->description)<p class="lead">{{ $arc->description }}</p>@endif
-        <p class="muted" data-progress-text data-arc="{{ $arc->slug }}" data-total="{{ $chapters->count() }}"></p>
+        <p class="map-progress" data-progress-text data-arc="{{ $arc->slug }}" data-total="{{ $n }}"></p>
     </section>
 
     @if ($chapters->isEmpty())
-        <section class="empty">
+        <section class="empty empty-dark">
             <h2>Belum ada bab yang diterbitkan</h2>
             <p>Bab akan muncul di sini selepas disemak.</p>
         </section>
     @else
-        <ol class="journey" aria-label="Peta perjalanan">
-            @foreach ($chapters as $i => $chapter)
-                <li class="journey-stop"
-                    data-chapter="{{ $chapter->id }}"
-                    data-unlock="{{ $preview ? 0 : $chapter->unlock_day_offset }}">
-                    <span class="journey-lamp" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M12 2c1.5 2.2 2.5 3.7 2.5 5.2A2.5 2.5 0 0 1 12 9.7a2.5 2.5 0 0 1-2.5-2.5C9.5 5.7 10.5 4.2 12 2Z"/><path d="M5 12h14l-1.6 5.2A3 3 0 0 1 14.5 19.5h-5a3 3 0 0 1-2.9-2.3L5 12Z"/></svg>
-                    </span>
-                    <a class="journey-link" href="{{ route('player.chapter', ['arc' => $arc->slug, 'chapter' => $chapter->id] + ($preview ? ['pratonton' => 1] : [])) }}">
-                        <span class="journey-number">Bab {{ $i + 1 }}</span>
-                        <span class="journey-title">{{ $chapter->revision?->title }}</span>
-                        @if ($preview && $chapter->revision?->status)
-                            <span class="status status-{{ $chapter->revision->status->value }}">{{ $chapter->revision->status->getLabel() }}</span>
-                        @endif
-                        <span class="journey-lock" data-lock-text hidden></span>
-                    </a>
-                </li>
-            @endforeach
-        </ol>
+        <div class="map" style="--map-h: {{ $height }}px">
+            <svg class="map-path" viewBox="0 0 400 {{ $height }}" preserveAspectRatio="none" aria-hidden="true">
+                <path d="{{ $d }}" class="path-base" pathLength="100"/>
+                <path d="{{ $d }}" class="path-done" pathLength="100" data-path-done/>
+            </svg>
+
+            <ol class="map-stops" aria-label="Peta perjalanan">
+                @foreach ($chapters as $i => $chapter)
+                    @php [$x, $y] = $pts[$i]; @endphp
+                    <li class="stop {{ $i % 2 ? 'stop-right' : 'stop-left' }}"
+                        style="left: {{ $x / 4 }}%; top: {{ $y }}px"
+                        data-chapter="{{ $chapter->id }}"
+                        data-index="{{ $i }}"
+                        data-unlock="{{ $preview ? 0 : $chapter->unlock_day_offset }}">
+                        <a class="stop-node" href="{{ route('player.chapter', ['arc' => $arc->slug, 'chapter' => $chapter->id] + ($preview ? ['pratonton' => 1] : [])) }}">
+                            <span class="stop-lamp" aria-hidden="true"><span class="flame"></span>
+                                <svg viewBox="0 0 64 64"><path d="M10 34h44l-4 13a8 8 0 0 1-7.7 6H21.7A8 8 0 0 1 14 47z"/></svg>
+                            </span>
+                            <span class="stop-label">
+                                <span class="stop-number">Bab {{ $i + 1 }}</span>
+                                <span class="stop-title">{{ $chapter->revision?->title }}</span>
+                                @if ($preview && $chapter->revision?->status)
+                                    <span class="status status-{{ $chapter->revision->status->value }}">{{ $chapter->revision->status->getLabel() }}</span>
+                                @endif
+                                <span class="stop-lock" data-lock-text hidden></span>
+                            </span>
+                        </a>
+                    </li>
+                @endforeach
+            </ol>
+        </div>
     @endif
 @endsection
