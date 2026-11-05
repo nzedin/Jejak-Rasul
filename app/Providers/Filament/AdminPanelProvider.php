@@ -10,6 +10,8 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\HtmlString;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -23,6 +25,21 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
  */
 class AdminPanelProvider extends PanelProvider
 {
+    /** Kelabu Filament diganti dengan pasir (terang) → biru malam (gelap). */
+    private const NIGHT = [
+        50 => 'oklch(0.975 0.012 85)',
+        100 => 'oklch(0.94 0.02 82)',
+        200 => 'oklch(0.88 0.03 80)',
+        300 => 'oklch(0.80 0.035 78)',
+        400 => 'oklch(0.68 0.035 75)',
+        500 => 'oklch(0.55 0.03 260)',
+        600 => 'oklch(0.44 0.04 262)',
+        700 => 'oklch(0.35 0.045 264)',
+        800 => 'oklch(0.27 0.045 265)',
+        900 => 'oklch(0.21 0.045 266)',
+        950 => 'oklch(0.16 0.04 266)',
+    ];
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -31,9 +48,23 @@ class AdminPanelProvider extends PanelProvider
             ->path('panel')
             ->login()
             ->brandName('Jejak Rasul — Panel Kandungan')
+            ->brandLogo(fn () => view('filament.brand'))
+            ->brandLogoHeight('2.4rem')
+            ->favicon(asset('favicon.svg'))
+            // Tema sama dengan paparan pemain: malam padang pasir + emas pelita.
+            ->darkMode(true, isForced: true)
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::hex('#e0a24a'),
+                'gray' => self::NIGHT,
+                'success' => Color::hex('#4fbf80'),
+                'warning' => Color::hex('#f2b84e'),
+                'danger' => Color::hex('#e5625a'),
+                'info' => Color::hex('#7aa2e0'),
             ])
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => new HtmlString(
+                '<link rel="stylesheet" href="'.e(asset('css/panel.css')).'">'
+            ))
+            ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.night-sky'))
             ->navigationGroups([
                 'Kandungan',
                 'Semakan',

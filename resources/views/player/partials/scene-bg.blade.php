@@ -12,7 +12,7 @@
         $stars[] = [mt_rand(0, 400), mt_rand(0, 430), mt_rand(5, 16) / 10, mt_rand(0, 40) / 10, mt_rand(20, 50) / 10];
     }
 @endphp
-<svg class="bg bg-{{ $setting }}" viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+<svg class="bg bg-{{ $setting }}" viewBox="0 0 400 800" preserveAspectRatio="{{ $fit ?? 'xMidYMax slice' }}" aria-hidden="true" focusable="false">
     <defs>
         <linearGradient id="sky-{{ $setting }}" x1="0" y1="0" x2="0" y2="1">
             @switch($setting)

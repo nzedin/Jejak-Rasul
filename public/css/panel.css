@@ -1,0 +1,111 @@
+/* Jejak Rasul — tema panel kandungan (Filament), sepadan dengan paparan pemain.
+   Dimuatkan melalui render hook, tiada langkah build diperlukan. */
+
+:root {
+    --jr-night: #0a1122;
+    --jr-night-2: #131d38;
+    --jr-gold: #e0a24a;
+    --jr-gold-soft: #f6d08e;
+    --jr-line: rgba(246, 208, 142, .14);
+    --jr-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+/* ---------- Latar langit ---------- */
+
+.fi-body { background: var(--jr-night) !important; }
+
+.jr-sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.jr-sky .bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.jr-sky::after { content: ""; position: absolute; inset: 0; background: rgba(6, 10, 22, .45); }
+.fi-body:has(.fi-simple-layout) .jr-sky::after { background: rgba(6, 10, 22, .3); }
+
+.fi-layout, .fi-simple-layout { position: relative; z-index: 1; }
+
+/* Animasi latar (sama seperti css/jejak.css) */
+.jr-sky .stars circle { animation: jr-twinkle 3s infinite ease-in-out; }
+.jr-sky .moon { animation: jr-breathe 8s infinite ease-in-out; }
+.jr-sky .layer-far { animation: jr-drift 40s infinite alternate ease-in-out; }
+.jr-sky .layer-mid { animation: jr-drift 28s infinite alternate-reverse ease-in-out; }
+.jr-sky .layer-near { animation: jr-drift 18s infinite alternate ease-in-out; }
+.jr-sky .caravan { animation: jr-caravan 60s linear infinite; }
+.jr-sky .shooting-star { opacity: 0; animation: jr-shoot 9s 2s infinite; }
+@keyframes jr-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@keyframes jr-breathe { 0%, 100% { opacity: .9; } 50% { opacity: 1; } }
+@keyframes jr-drift { from { transform: translateX(-12px); } to { transform: translateX(12px); } }
+@keyframes jr-caravan { from { transform: translate(-200px, 205px); } to { transform: translate(1700px, 205px); } }
+@keyframes jr-shoot {
+    0%, 88% { opacity: 0; transform: translate(0, 0); }
+    90% { opacity: 1; }
+    96% { opacity: 0; transform: translate(-120px, 72px); }
+    100% { opacity: 0; }
+}
+
+/* ---------- Tipografi ---------- */
+
+.fi-header-heading,
+.fi-simple-header-heading,
+.fi-section-header-heading,
+.fi-modal-heading,
+.fi-ta-header-heading {
+    font-family: var(--jr-serif) !important;
+    letter-spacing: .01em;
+}
+.fi-header-heading, .fi-simple-header-heading { font-weight: 600 !important; }
+
+.fi-sidebar-group-label {
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-size: .7rem !important;
+    color: var(--jr-gold-soft) !important;
+}
+
+/* ---------- Jenama ---------- */
+
+.jr-brand { display: inline-flex; align-items: center; gap: .55rem; color: #f4e9d8; }
+.jr-brand-lamp { width: 1.6rem; height: 1.6rem; fill: none; stroke: var(--jr-gold-soft); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.jr-brand-lamp path:first-child { fill: var(--jr-gold); stroke: var(--jr-gold); transform-origin: 12px 9px; animation: jr-flicker 2.4s infinite; }
+@keyframes jr-flicker { 0%, 100% { transform: scale(1); } 50% { transform: scale(.92, 1.06); opacity: .9; } }
+.jr-brand-text { font-family: var(--jr-serif); font-size: 1.15rem; line-height: 1.1; display: flex; flex-direction: column; }
+.jr-brand-text small { font-family: system-ui, sans-serif; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--jr-gold-soft); }
+
+/* ---------- Permukaan kaca ---------- */
+
+.fi-topbar > nav, .fi-topbar {
+    background: rgba(10, 17, 34, .72) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--jr-line);
+    box-shadow: none !important;
+}
+
+.fi-sidebar { background: rgba(10, 17, 34, .55) !important; backdrop-filter: blur(12px); border-right: 1px solid var(--jr-line); }
+
+.fi-section,
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat,
+.fi-simple-main,
+.fi-dropdown-panel,
+.fi-modal-window {
+    background: rgba(19, 29, 56, .78) !important;
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--jr-line) !important;
+    box-shadow: 0 20px 50px -25px rgba(0, 0, 0, .9) !important;
+}
+.fi-modal-window, .fi-dropdown-panel { background: rgba(16, 24, 46, .96) !important; }
+
+.fi-simple-main { border-radius: 22px !important; }
+
+/* Butang utama: emas bercahaya */
+.fi-btn.fi-color-primary:not(.fi-btn-outlined),
+.fi-btn-color-primary {
+    box-shadow: 0 0 18px rgba(224, 162, 74, .35);
+}
+
+/* Item navigasi aktif */
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background: rgba(224, 162, 74, .14) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jr-sky *, .jr-brand-lamp path { animation: none !important; }
+}

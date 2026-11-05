@@ -51,6 +51,10 @@ Akaun contoh daripada seeder (kata laluan: `password`, **tukar sebelum dipasang 
 
 Seeder juga mencipta rangka arka **Hijrah** (10 bab, semuanya draf) dan senarai sumber utama tanpa nombor rujukan. Butiran rujukan perlu diisi daripada naskhah sebenar.
 
+## Tema
+
+Panel kandungan menggunakan tema yang sama dengan paparan pemain: mod gelap, langit malam beranimasi, warna emas pelita dan tajuk berfont serif. Tema dimuatkan daripada `public/css/panel.css` melalui render hook Filament, jadi tiada langkah build diperlukan.
+
 ## Latar babak
 
 Setiap babak ada **latar visual** (Kota Makkah waktu malam, padang pasir malam/siang, dalam gua, pesisir pantai, oasis waktu fajar) yang dipilih dalam panel. Latar hanya landskap & objek — Nabi ﷺ dan sahabat tidak dipaparkan. Latar ialah hiasan, jadi ia tidak melalui aliran semakan.
