@@ -31,6 +31,12 @@ class User extends Authenticatable implements FilamentUser
     /** Panel kandungan hanya untuk penulis, penyemak dan admin. */
     public function canAccessPanel(Panel $panel): bool
     {
+        return $this->isStaff();
+    }
+
+    /** Penulis, penyemak atau admin. */
+    public function isStaff(): bool
+    {
         return $this->role !== Role::Player;
     }
 

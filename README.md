@@ -31,7 +31,15 @@ Cipta pangkalan data `jejak_rasul` dalam Laragon (HeidiSQL), kemudian:
 php artisan migrate --seed
 ```
 
-Buka **http://jejak-rasul.test/panel** (atau `php artisan serve` → http://127.0.0.1:8000/panel).
+| Paparan | Alamat |
+|---|---|
+| **Pemain** | http://jejak-rasul.test/ |
+| **Panel kandungan** (penulis/penyemak) | http://jejak-rasul.test/panel |
+| **Pratonton draf** (selepas log masuk panel) | http://jejak-rasul.test/?pratonton=1 |
+
+Atau `php artisan serve` → http://127.0.0.1:8000.
+
+Paparan pemain hanya menunjukkan kandungan yang **diluluskan** dalam arka yang ditanda *Papar kepada pemain*. Kalau belum ada apa-apa yang diluluskan, gunakan mod pratonton untuk lihat rupa draf.
 
 Akaun contoh daripada seeder (kata laluan: `password`, **tukar sebelum dipasang di pelayan sebenar**):
 
@@ -100,7 +108,8 @@ php artisan test
 
 ## Langkah seterusnya
 
-- [ ] Paparan pemain (Livewire): peta perjalanan, pembaca bab, Kad Sumber, Jurnal Saksi
-- [ ] Buka bab ikut hari (`unlock_day_offset`)
+- [x] Paparan pemain: peta perjalanan, pembaca bab, label & sumber, pilihan Yusuf, kuiz, Kad Sumber, Jurnal Saksi
+- [x] Buka bab ikut hari (`unlock_day_offset`, dikira dalam peranti pemain)
+- [ ] Akaun pemain (kemajuan disimpan di pelayan; kini dalam `localStorage` peranti)
 - [ ] PWA (boleh dipasang & dibaca luar talian)
 - [ ] Susunan semula babak memerlukan pengesahan penyemak
