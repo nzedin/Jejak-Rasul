@@ -4,13 +4,12 @@
 
 @section('content')
     <section class="home-hero">
-        @include('player.partials.scene-bg', ['setting' => 'makkah_malam', 'seed' => 11])
+        <div class="only-portrait">@include('player.partials.scene-bg', ['setting' => 'makkah_malam', 'seed' => 11])</div>
+        <div class="only-landscape">@include('player.partials.sky-wide')</div>
         <div class="home-hero-inner">
-            <div class="hero-lamp" aria-hidden="true"><span class="flame"></span>
-                <svg viewBox="0 0 64 64"><path d="M10 34h44l-4 13a8 8 0 0 1-7.7 6H21.7A8 8 0 0 1 14 47z"/><path d="M24 58h16"/></svg>
-            </div>
+            @include('player.partials.emblem', ['class' => 'hero-emblem'])
             <p class="eyebrow">Kembara sirah interaktif</p>
-            <h1>Jejak Rasul</h1>
+            <h1>Jejak Sirah</h1>
             <p class="lead">
                 Makkah, suatu malam. Kau ialah <strong>Yusuf</strong>, anak seorang pedagang kecil.
                 Malam ini, kau akan menyaksikan sebuah perjalanan yang mengubah sejarah.

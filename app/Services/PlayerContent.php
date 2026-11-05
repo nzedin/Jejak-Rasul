@@ -32,7 +32,10 @@ class PlayerContent
             ->when(! $this->preview, fn ($q) => $q->where('is_published', true))
             ->orderBy('position')
             ->get()
-            ->each(fn (Arc $arc) => $arc->setRelation('visibleChapters', $this->chapters($arc)));
+            ->each(fn (Arc $arc) => $arc->setRelation('visibleChapters', $this->chapters($arc)))
+            // Pemain tidak nampak arka yang belum ada bab diluluskan.
+            ->filter(fn (Arc $arc) => $this->preview || $arc->visibleChapters->isNotEmpty())
+            ->values();
     }
 
     public function canSeeArc(Arc $arc): bool

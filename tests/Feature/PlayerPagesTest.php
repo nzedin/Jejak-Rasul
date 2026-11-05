@@ -59,4 +59,43 @@ class PlayerPagesTest extends TestCase
         $arc->update(['is_published' => true]);
         $this->get("/arka/draf/bab/{$chapter->id}")->assertNotFound();
     }
+
+    public function test_content_under_review_is_hidden_from_players(): void
+    {
+        $writer = User::factory()->writer()->create();
+        $reviewer = User::factory()->reviewer()->create();
+        $wf = app(ContentWorkflow::class);
+
+        $arc = Arc::create(['title' => 'Hijrah', 'slug' => 'hijrah', 'is_published' => true]);
+        $chapter = app(ChapterEditor::class)->create($arc, ['title' => 'Tajuk lulus'], $writer);
+        $wf->submit($chapter->latestRevision, $writer);
+        $wf->approve($chapter->latestRevision->fresh(), $reviewer);
+
+        // Versi baru tajuk sedang DIHANTAR untuk semakan
+        $v2 = app(ChapterEditor::class)->edit($chapter->fresh(), ['title' => 'Tajuk dalam semakan'], $writer);
+        $wf->submit($v2, $writer);
+
+        // Babak yang sedang DIHANTAR & babak yang PERLU PINDAAN
+        $submitted = app(SceneEditor::class)->create($chapter, ['body_ms' => '<p>Babak dihantar</p>', 'label' => SceneLabel::Rekaan], [], $writer);
+        $wf->submit($submitted->latestRevision, $writer);
+        $rejected = app(SceneEditor::class)->create($chapter, ['body_ms' => '<p>Babak perlu pindaan</p>', 'label' => SceneLabel::Rekaan], [], $writer);
+        $wf->submit($rejected->latestRevision, $writer);
+        $wf->requestChanges($rejected->latestRevision->fresh(), $reviewer, 'Semak semula');
+
+        $this->get('/arka/hijrah')->assertSee('Tajuk lulus')->assertDontSee('Tajuk dalam semakan');
+        $this->get("/arka/hijrah/bab/{$chapter->id}")
+            ->assertSee('Tajuk lulus')
+            ->assertDontSee('Tajuk dalam semakan')
+            ->assertDontSee('Babak dihantar')
+            ->assertDontSee('Babak perlu pindaan');
+    }
+
+    public function test_published_arc_without_approved_chapters_is_hidden(): void
+    {
+        $writer = User::factory()->writer()->create();
+        $arc = Arc::create(['title' => 'Arka kosong', 'slug' => 'kosong', 'is_published' => true]);
+        app(ChapterEditor::class)->create($arc, ['title' => 'Draf'], $writer);
+
+        $this->get('/')->assertOk()->assertDontSee('Arka kosong');
+    }
 }

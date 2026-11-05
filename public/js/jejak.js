@@ -1,4 +1,4 @@
-// Jejak Rasul — paparan pemain.
+// Jejak Sirah — paparan pemain.
 // Kemajuan disimpan dalam peranti (localStorage). Tiada log masuk diperlukan.
 (function () {
     'use strict';
@@ -35,8 +35,75 @@
         const n = done(arc).length;
         if (!total) return '';
         if (n === 0) return total + ' bab menanti';
-        if (n >= total) return 'Semua ' + total + ' pelita telah menyala ✦';
-        return n + ' daripada ' + total + ' pelita menyala';
+        if (n >= total) return 'Semua ' + total + ' bintang telah bersinar ✦';
+        return n + ' daripada ' + total + ' bintang bersinar';
+    }
+
+    /* ======================= Kesan: jejak kaki & pasir ======================= */
+
+    const FOOT = '<svg viewBox="0 0 26 40" aria-hidden="true"><g fill="currentColor"><path d="M12 38c-4.6 0-7-4.6-7-10.5C5 20 7.4 14 12.2 14c4.6 0 6.8 5.4 6.8 12.2C19 33 16.6 38 12 38Z"/><ellipse cx="6.4" cy="9.6" rx="2.6" ry="3.2"/><ellipse cx="11.2" cy="6.6" rx="2.2" ry="2.8"/><ellipse cx="15.4" cy="6.8" rx="1.9" ry="2.4"/><ellipse cx="18.6" cy="9" rx="1.6" ry="2"/><ellipse cx="20.6" cy="12.4" rx="1.3" ry="1.7"/></g></svg>';
+
+    if (!reduceMotion) {
+        const layer = document.createElement('div');
+        layer.className = 'fx-layer';
+        layer.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(layer);
+
+        const spawn = (cls, x, y, vars, html) => {
+            if (layer.childElementCount > 120) return;
+            const el = document.createElement('span');
+            el.className = cls;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            Object.entries(vars || {}).forEach(([k, v]) => el.style.setProperty(k, v));
+            if (html) el.innerHTML = html;
+            el.addEventListener('animationend', () => el.remove(), { once: true });
+            layer.appendChild(el);
+        };
+
+        // Jejak tapak kaki mengikut tetikus (komputer sahaja)
+        if (window.matchMedia('(pointer: fine)').matches) {
+            let lastX = null, lastY = null, left = true;
+            window.addEventListener('pointermove', (e) => {
+                if (e.pointerType !== 'mouse') return;
+                if (lastX === null) { lastX = e.clientX; lastY = e.clientY; return; }
+                const dx = e.clientX - lastX, dy = e.clientY - lastY;
+                if (Math.hypot(dx, dy) < 46) return;
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+                spawn('fx-step', e.clientX, e.clientY, { '--a': angle + 'deg', '--side': (left ? -6 : 6) + 'px' }, FOOT);
+                left = !left;
+                lastX = e.clientX;
+                lastY = e.clientY;
+            }, { passive: true });
+        }
+
+        // Sentuh / klik: tapak kaki + riak pasir + butir pasir + kerdipan bintang
+        const sand = ['#f2c97d', '#e0a24a', '#d9b98a', '#fff1cf'];
+        let lastTap = 0;
+        window.addEventListener('pointerdown', (e) => {
+            const now = Date.now();
+            if (now - lastTap < 80) return;
+            lastTap = now;
+            const x = e.clientX, y = e.clientY;
+            spawn('fx-ripple', x, y);
+            spawn('fx-stamp', x, y, { '--a': (Math.random() * 30 - 15) + 'deg' }, FOOT);
+            for (let i = 0; i < 10; i++) {
+                const a = Math.random() * Math.PI - Math.PI; // ke atas & sisi
+                const d = 18 + Math.random() * 38;
+                spawn('fx-grain', x, y, {
+                    '--dx': Math.cos(a) * d + 'px',
+                    '--dy': Math.sin(a) * d * 0.8 + 14 + 'px',
+                    '--s': (2 + Math.random() * 3).toFixed(1) + 'px',
+                    '--c': sand[i % sand.length],
+                });
+            }
+            if (e.target.closest && e.target.closest('button, a, .choice-btn')) {
+                for (let i = 0; i < 4; i++) {
+                    const a = (Math.PI / 2) * i + Math.PI / 4;
+                    spawn('fx-spark', x, y, { '--dx': Math.cos(a) * 34 + 'px', '--dy': Math.sin(a) * 34 + 'px' });
+                }
+            }
+        }, { passive: true });
     }
 
     /* ======================= Halaman utama ======================= */
@@ -270,7 +337,7 @@
         }));
     });
 
-    // Nyalakan pelita
+    // Tandakan jejak (bintang)
     const finish = story.querySelector('[data-finish]');
     const lamp = finish.querySelector('[data-complete]');
     const after = finish.querySelector('[data-after-complete]');
@@ -281,7 +348,7 @@
         finish.classList.add('is-lit');
         lamp.classList.add('is-lit');
         lamp.disabled = true;
-        finish.querySelector('[data-finish-title]').textContent = 'Pelita bab ini telah menyala';
+        finish.querySelector('[data-finish-title]').textContent = 'Jejak bab ini telah ditanda';
         finish.querySelector('[data-finish-sub]').hidden = true;
         after.hidden = false;
         if (journal) journal.value = store.get(journalKey, '');

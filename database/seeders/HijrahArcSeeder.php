@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Enums\SourceType;
 use App\Models\Arc;
 use App\Models\Source;
@@ -18,7 +19,7 @@ class HijrahArcSeeder extends Seeder
 {
     public function run(ChapterEditor $editor): void
     {
-        $writer = User::where('email', 'penulis@jejakrasul.test')->firstOrFail();
+        $writer = User::where('role', Role::Writer)->orderBy('id')->firstOrFail();
 
         $arc = Arc::firstOrCreate(
             ['slug' => 'hijrah'],

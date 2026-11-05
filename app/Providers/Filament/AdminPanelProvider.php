@@ -47,11 +47,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('panel')
             ->path('panel')
             ->login()
-            ->brandName('Jejak Rasul — Panel Kandungan')
+            ->brandName('Jejak Sirah — Panel Kandungan')
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.4rem')
             ->favicon(asset('favicon.svg'))
-            // Tema sama dengan paparan pemain: malam padang pasir + emas pelita.
+            // Tema sama dengan paparan pemain: malam padang pasir + emas.
             ->darkMode(true, isForced: true)
             ->colors([
                 'primary' => Color::hex('#e0a24a'),

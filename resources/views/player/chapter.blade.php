@@ -9,7 +9,7 @@
     $mapUrl = route('player.arc', ['arc' => $arc->slug] + $q);
 @endphp
 
-@section('title', ($chapter->revision?->title ?? 'Bab').' — Jejak Rasul')
+@section('title', ($chapter->revision?->title ?? 'Bab').' — Jejak Sirah')
 @section('body-class', 'page-story')
 
 @section('content')
@@ -146,16 +146,15 @@
         </section>
     @endforeach
 
-    {{-- Pelita --}}
+    {{-- Bintang penutup --}}
     <section class="slide slide-center slide-finish" data-slide data-finish data-interactive>
         @include('player.partials.scene-bg', ['setting' => $lastSetting, 'seed' => 70])
         <div class="slide-inner">
-            <button type="button" class="big-lamp" data-complete aria-label="Nyalakan pelita">
-                <span class="flame"></span>
-                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 34h44l-4 13a8 8 0 0 1-7.7 6H21.7A8 8 0 0 1 14 47z"/><path d="M24 58h16"/></svg>
+            <button type="button" class="big-lamp" data-complete aria-label="Tandakan jejak bab ini">
+                @include('player.partials.star')
             </button>
-            <h2 data-finish-title>Sentuh pelita untuk menyalakannya</h2>
-            <p class="lead" data-finish-sub>Tanda anda telah menamatkan bab ini.</p>
+            <h2 data-finish-title>Sentuh bintang untuk menandakan jejak anda</h2>
+            <p class="lead" data-finish-sub>Setiap bab yang selesai menjadi bintang di langit perjalanan anda.</p>
 
             <div class="after" data-after-complete hidden>
                 @if ($sources->isNotEmpty())

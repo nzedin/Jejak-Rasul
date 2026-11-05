@@ -1,4 +1,4 @@
-/* Jejak Rasul — paparan pemain. CSS biasa, tiada langkah build diperlukan. */
+/* Jejak Sirah — paparan pemain. CSS biasa, tiada langkah build diperlukan. */
 
 :root {
     --night: #0a1122;
@@ -20,7 +20,7 @@
 }
 
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; background: var(--night); min-height: 100%; }
 body {
     margin: 0;
     font-family: var(--sans);
@@ -79,8 +79,7 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
     font-family: var(--serif);
     font-size: 1.15rem;
 }
-.brand-lamp { width: 1.5rem; height: 1.5rem; fill: none; stroke: var(--gold-soft); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.brand-lamp path:first-child { fill: var(--gold); stroke: var(--gold); animation: flicker 2.4s infinite; transform-origin: 12px 9px; }
+.brand-emblem { width: 1.9rem; height: 1.9rem; }
 
 .site-main { position: relative; }
 
@@ -140,25 +139,24 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
 .button-glow { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); box-shadow: 0 0 24px rgba(224, 162, 74, .5); }
 .button-ghost { background: transparent; color: var(--sand); border: 1px solid var(--line); }
 
-/* ---------- Api pelita (dikongsi) ---------- */
+/* ---------- Lambang & bintang (dikongsi) ---------- */
 
-.flame {
-    position: absolute;
-    left: 50%;
-    width: 28%;
-    aspect-ratio: 1 / 1.6;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    background: radial-gradient(circle at 50% 70%, #fff7d6 0%, #ffd27a 35%, #f08a24 70%, transparent 72%);
-    transform-origin: 50% 90%;
-    filter: drop-shadow(0 0 10px rgba(255, 190, 90, .9));
-    animation: flicker 1.8s infinite ease-in-out;
-}
-@keyframes flicker {
-    0%, 100% { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: 1; }
-    25% { transform: translateX(-50%) scale(1.06, .95) rotate(2deg); opacity: .92; }
-    50% { transform: translateX(-50%) scale(.95, 1.05) rotate(-1deg); }
-    75% { transform: translateX(-50%) scale(1.03, .97) rotate(1.5deg); opacity: .95; }
-}
+.emblem { display: block; overflow: visible; }
+.emblem-moon, .emblem-star { fill: var(--gold-soft); }
+.emblem-moon { filter: drop-shadow(0 0 4px rgba(246, 208, 142, .6)); }
+.emblem-star { transform-box: fill-box; transform-origin: center; animation: twinkleStar 3s infinite ease-in-out; }
+.emblem-dune { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; }
+.emblem-trail circle { fill: var(--gold); animation: step 3.5s infinite; opacity: 0; }
+.emblem-trail circle:nth-child(2) { animation-delay: .35s; }
+.emblem-trail circle:nth-child(3) { animation-delay: .7s; }
+.emblem-trail circle:nth-child(4) { animation-delay: 1.05s; }
+.emblem-trail circle:nth-child(5) { animation-delay: 1.4s; }
+@keyframes step { 0% { opacity: 0; } 10%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes twinkleStar { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.7); opacity: .7; } }
+
+.star8 { display: block; width: 100%; height: 100%; overflow: visible; }
+.star8 rect { fill: rgba(246, 208, 142, .06); stroke: rgba(244, 233, 216, .45); stroke-width: 2.5; stroke-linejoin: round; transition: fill .8s, stroke .8s; }
+.star8 circle { fill: none; stroke: rgba(244, 233, 216, .45); stroke-width: 2.5; transition: fill .8s, stroke .8s; }
 
 /* ---------- Latar SVG beranimasi ---------- */
 
@@ -181,6 +179,8 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
 @keyframes drift { from { transform: translateX(-12px); } to { transform: translateX(12px); } }
 
 .caravan { animation: caravan 60s linear infinite; }
+.caravan-wide { animation: caravan-wide 70s linear infinite; }
+@keyframes caravan-wide { from { transform: translateX(-200px); } to { transform: translateX(1700px); } }
 @keyframes caravan { from { transform: translateX(-140px); } to { transform: translateX(440px); } }
 
 .shooting-star { opacity: 0; animation: shoot 9s 2s infinite; }
@@ -233,9 +233,7 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
     animation: fadeUp 1.4s .3s var(--ease) both;
 }
 .home-hero h1 { font-size: clamp(2.6rem, 11vw, 4rem); letter-spacing: .01em; }
-.hero-lamp { position: relative; width: 4.5rem; height: 4.5rem; margin-bottom: 1rem; }
-.hero-lamp .flame { top: 6%; }
-.hero-lamp svg, .stop-lamp svg, .big-lamp svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: #3a2a1a; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; }
+.hero-emblem { width: 4.5rem; height: 4.5rem; margin-bottom: 1rem; }
 
 .home-arcs { max-width: 40rem; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 2rem) 2rem; }
 
@@ -307,8 +305,7 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
     border: 2px solid rgba(244, 233, 216, .3);
     transition: transform .3s var(--ease), box-shadow .3s;
 }
-.stop-lamp svg { inset: 18%; width: 64%; height: 64%; top: 26%; }
-.stop-lamp .flame { top: 12%; width: 22%; opacity: 0; transition: opacity .6s; }
+.stop-lamp .star8 { position: absolute; inset: 20%; width: 60%; height: 60%; transition: transform .8s var(--ease); }
 .stop-node:hover .stop-lamp { transform: scale(1.08); }
 
 .stop-label {
@@ -327,7 +324,9 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
 .stop-lock { font-size: .78rem; color: var(--sand-2); }
 
 .stop.is-done .stop-lamp { border-color: var(--gold); box-shadow: 0 0 22px rgba(224, 162, 74, .7); }
-.stop.is-done .flame { opacity: 1; }
+.stop.is-done .star8 rect, .stop.is-done .star8 circle { fill: var(--gold); stroke: var(--gold-soft); }
+.stop.is-done .star8 circle { fill: #fff3d0; }
+.stop.is-done .star8 { transform: rotate(22.5deg); filter: drop-shadow(0 0 6px rgba(246, 208, 142, .9)); }
 .stop.is-current .stop-lamp { border-color: var(--gold-soft); animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(246, 208, 142, .6); } 50% { box-shadow: 0 0 0 12px rgba(246, 208, 142, 0); } }
 .stop.is-locked .stop-node { pointer-events: none; }
@@ -494,14 +493,16 @@ h2 { font-size: clamp(1.3rem, 4.5vw, 1.7rem); }
     border: 0;
     border-radius: 50%;
     cursor: pointer;
+    padding: 1.1rem;
     background: radial-gradient(circle, rgba(255, 255, 255, .08), transparent 70%);
 }
-.big-lamp svg { top: 18%; }
-.big-lamp .flame { top: 6%; width: 26%; opacity: 0; transform: translateX(-50%) scale(.2); transition: opacity .8s; }
+.big-lamp .star8 { transition: transform 1.4s var(--ease), filter 1.4s; }
 .big-lamp:not(:disabled) { animation: pulse 2s infinite; }
-.big-lamp.is-lit { animation: none; box-shadow: 0 0 80px 20px rgba(224, 162, 74, .45); transition: box-shadow 1.5s; }
-.big-lamp.is-lit .flame { opacity: 1; animation: ignite 1s var(--ease) forwards, flicker 1.8s 1s infinite ease-in-out; }
-@keyframes ignite { from { transform: translateX(-50%) scale(.2); } to { transform: translateX(-50%) scale(1); } }
+.big-lamp:not(:disabled):hover .star8 { transform: rotate(22.5deg); }
+.big-lamp.is-lit { animation: none; box-shadow: 0 0 80px 20px rgba(224, 162, 74, .4); transition: box-shadow 1.5s; }
+.big-lamp.is-lit .star8 { transform: rotate(225deg) scale(1.08); filter: drop-shadow(0 0 14px rgba(246, 208, 142, 1)); }
+.big-lamp.is-lit .star8 rect { fill: var(--gold); stroke: var(--gold-soft); }
+.big-lamp.is-lit .star8 circle { fill: #fff3d0; stroke: var(--gold-soft); }
 .slide-finish.is-lit::after { background: radial-gradient(circle at 50% 35%, rgba(224, 162, 74, .25), rgba(4, 7, 16, .7) 60%); transition: background 1.5s; }
 
 .after { margin-top: 1.5rem; text-align: left; animation: fadeUp .9s .4s var(--ease) both; }
@@ -606,5 +607,109 @@ textarea:focus { outline: 2px solid var(--gold-soft); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .emblem-trail circle { opacity: 1; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ---------- Kursor tapak kaki & kesan sentuhan ---------- */
+
+@media (pointer: fine) {
+    html, body, .story { cursor: url("../img/cursor-foot.svg") 9 3, auto; }
+    a, button, summary, label, [data-open-sheet], .choice-btn, .big-lamp, .nav-btn, .stop-node {
+        cursor: url("../img/cursor-foot-gold.svg") 9 3, pointer !important;
+    }
+    textarea, input { cursor: text; }
+}
+
+.fx-layer { position: fixed; inset: 0; z-index: 9999; pointer-events: none; overflow: hidden; }
+
+/* Jejak tapak kaki yang mengikut tetikus */
+.fx-step {
+    position: absolute;
+    width: 16px;
+    height: 25px;
+    margin: -12px 0 0 -8px;
+    color: rgba(246, 208, 142, .8);
+    filter: drop-shadow(0 0 4px rgba(224, 162, 74, .6));
+    transform: rotate(var(--a)) translateX(var(--side));
+    animation: fx-step 1.6s ease-out forwards;
+}
+.fx-step svg, .fx-stamp svg { width: 100%; height: 100%; display: block; }
+@keyframes fx-step {
+    0% { opacity: 0; transform: rotate(var(--a)) translateX(var(--side)) scale(1.3); }
+    12% { opacity: 1; transform: rotate(var(--a)) translateX(var(--side)) scale(1); }
+    100% { opacity: 0; transform: rotate(var(--a)) translateX(var(--side)) scale(.95); }
+}
+
+/* Sentuh: tapak kaki ditekan atas pasir + butir pasir terpercik + riak pasir */
+.fx-stamp {
+    position: absolute;
+    width: 22px;
+    height: 34px;
+    margin: -17px 0 0 -11px;
+    color: var(--gold-soft);
+    filter: drop-shadow(0 0 6px rgba(246, 208, 142, .8));
+    animation: fx-stamp 1.1s var(--ease) forwards;
+}
+@keyframes fx-stamp {
+    0% { opacity: 0; transform: rotate(var(--a)) scale(1.8); }
+    20% { opacity: 1; transform: rotate(var(--a)) scale(1); }
+    100% { opacity: 0; transform: rotate(var(--a)) scale(.9); }
+}
+.fx-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(224, 162, 74, .7);
+    animation: fx-ripple .9s ease-out forwards;
+}
+@keyframes fx-ripple { to { transform: scale(7, 4.5); opacity: 0; } }
+.fx-grain {
+    position: absolute;
+    width: var(--s);
+    height: var(--s);
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: var(--c);
+    animation: fx-grain .9s cubic-bezier(.2, .7, .4, 1) forwards;
+}
+@keyframes fx-grain {
+    0% { transform: translate(0, 0); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+.fx-spark {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    background: var(--gold-soft);
+    clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    animation: fx-spark .8s ease-out forwards;
+}
+@keyframes fx-spark {
+    0% { transform: translate(0, 0) scale(.2) rotate(0); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1) rotate(90deg); opacity: 0; }
+}
+
+/* ---------- Skrin landskap (komputer) ---------- */
+
+.only-portrait, .only-landscape { position: absolute; inset: 0; }
+.only-landscape { display: none; }
+
+@media (min-aspect-ratio: 1/1) {
+    .only-portrait { display: none; }
+    .only-landscape { display: block; }
+
+    /* Mod cerita dipaparkan sebagai "skrin cerita" di tengah, macam buku */
+    body.page-story { min-height: 100vh; background: radial-gradient(ellipse at center, #131d38, #04060d 70%) fixed; }
+    .story {
+        left: 50%;
+        right: auto;
+        width: min(100vw, calc(100vh * .62));
+        transform: translateX(-50%);
+        box-shadow: 0 0 80px rgba(0, 0, 0, .8), 0 0 0 1px rgba(246, 208, 142, .15);
+    }
+    .sheet-panel { max-width: 100%; }
 }

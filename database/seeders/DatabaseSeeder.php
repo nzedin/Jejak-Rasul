@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
         // Akaun contoh untuk pembangunan sahaja. TUKAR kata laluan sebelum
         // dipasang di pelayan sebenar.
         $users = [
-            ['name' => 'Admin', 'email' => 'admin@jejakrasul.test', 'role' => Role::Admin],
-            ['name' => 'Penulis', 'email' => 'penulis@jejakrasul.test', 'role' => Role::Writer],
-            ['name' => 'Penyemak', 'email' => 'penyemak@jejakrasul.test', 'role' => Role::Reviewer],
+            ['name' => 'Admin', 'email' => 'admin@jejaksirah.test', 'role' => Role::Admin],
+            ['name' => 'Penulis', 'email' => 'penulis@jejaksirah.test', 'role' => Role::Writer],
+            ['name' => 'Penyemak', 'email' => 'penyemak@jejaksirah.test', 'role' => Role::Reviewer],
         ];
 
         foreach ($users as $user) {

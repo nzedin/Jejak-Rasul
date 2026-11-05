@@ -1,4 +1,4 @@
-/* Jejak Rasul — tema panel kandungan (Filament), sepadan dengan paparan pemain.
+/* Jejak Sirah — tema panel kandungan (Filament), sepadan dengan paparan pemain.
    Dimuatkan melalui render hook, tiada langkah build diperlukan. */
 
 :root {
@@ -27,12 +27,12 @@
 .jr-sky .layer-far { animation: jr-drift 40s infinite alternate ease-in-out; }
 .jr-sky .layer-mid { animation: jr-drift 28s infinite alternate-reverse ease-in-out; }
 .jr-sky .layer-near { animation: jr-drift 18s infinite alternate ease-in-out; }
-.jr-sky .caravan { animation: jr-caravan 60s linear infinite; }
+.jr-sky .caravan-wide { animation: jr-caravan 70s linear infinite; }
 .jr-sky .shooting-star { opacity: 0; animation: jr-shoot 9s 2s infinite; }
 @keyframes jr-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 @keyframes jr-breathe { 0%, 100% { opacity: .9; } 50% { opacity: 1; } }
 @keyframes jr-drift { from { transform: translateX(-12px); } to { transform: translateX(12px); } }
-@keyframes jr-caravan { from { transform: translate(-200px, 205px); } to { transform: translate(1700px, 205px); } }
+@keyframes jr-caravan { from { transform: translateX(-200px); } to { transform: translateX(1700px); } }
 @keyframes jr-shoot {
     0%, 88% { opacity: 0; transform: translate(0, 0); }
     90% { opacity: 1; }
@@ -62,9 +62,15 @@
 /* ---------- Jenama ---------- */
 
 .jr-brand { display: inline-flex; align-items: center; gap: .55rem; color: #f4e9d8; }
-.jr-brand-lamp { width: 1.6rem; height: 1.6rem; fill: none; stroke: var(--jr-gold-soft); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.jr-brand-lamp path:first-child { fill: var(--jr-gold); stroke: var(--jr-gold); transform-origin: 12px 9px; animation: jr-flicker 2.4s infinite; }
-@keyframes jr-flicker { 0%, 100% { transform: scale(1); } 50% { transform: scale(.92, 1.06); opacity: .9; } }
+.jr-brand-emblem { width: 2rem; height: 2rem; display: block; overflow: visible; }
+.jr-brand-emblem .emblem-moon, .jr-brand-emblem .emblem-star { fill: var(--jr-gold-soft); }
+.jr-brand-emblem .emblem-dune { fill: none; stroke: var(--jr-gold); stroke-width: 2.4; stroke-linecap: round; }
+.jr-brand-emblem .emblem-trail circle { fill: var(--jr-gold); animation: jr-step 3.5s infinite; opacity: 0; }
+.jr-brand-emblem .emblem-trail circle:nth-child(2) { animation-delay: .35s; }
+.jr-brand-emblem .emblem-trail circle:nth-child(3) { animation-delay: .7s; }
+.jr-brand-emblem .emblem-trail circle:nth-child(4) { animation-delay: 1.05s; }
+.jr-brand-emblem .emblem-trail circle:nth-child(5) { animation-delay: 1.4s; }
+@keyframes jr-step { 0% { opacity: 0; } 10%, 70% { opacity: 1; } 100% { opacity: 0; } }
 .jr-brand-text { font-family: var(--jr-serif); font-size: 1.15rem; line-height: 1.1; display: flex; flex-direction: column; }
 .jr-brand-text small { font-family: system-ui, sans-serif; font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--jr-gold-soft); }
 
@@ -107,5 +113,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .jr-sky *, .jr-brand-lamp path { animation: none !important; }
+    .jr-sky *, .jr-brand-emblem * { animation: none !important; }
+    .jr-brand-emblem .emblem-trail circle { opacity: 1; }
+}
+
+/* Kursor tapak kaki (sama dengan paparan pemain) */
+@media (pointer: fine) {
+    .fi-body { cursor: url("../img/cursor-foot.svg") 9 3, auto; }
+    .fi-body a, .fi-body button, .fi-body [role="button"], .fi-body summary, .fi-body label {
+        cursor: url("../img/cursor-foot-gold.svg") 9 3, pointer;
+    }
 }

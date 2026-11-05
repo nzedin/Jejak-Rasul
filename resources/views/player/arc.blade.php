@@ -1,6 +1,6 @@
 @extends('player.layout')
 
-@section('title', $arc->title.' — Jejak Rasul')
+@section('title', $arc->title.' — Jejak Sirah')
 @section('body-class', 'page-map')
 
 @php
@@ -18,7 +18,10 @@
 @endphp
 
 @section('content')
-    <div class="map-bg">@include('player.partials.scene-bg', ['setting' => 'gurun_malam', 'seed' => 3])</div>
+    <div class="map-bg">
+        <div class="only-portrait">@include('player.partials.scene-bg', ['setting' => 'gurun_malam', 'seed' => 3])</div>
+        <div class="only-landscape">@include('player.partials.sky-wide')</div>
+    </div>
 
     <section class="map-head" data-arc-start="{{ $arc->slug }}">
         <p class="eyebrow">Arka</p>
@@ -48,9 +51,7 @@
                         data-index="{{ $i }}"
                         data-unlock="{{ $preview ? 0 : $chapter->unlock_day_offset }}">
                         <a class="stop-node" href="{{ route('player.chapter', ['arc' => $arc->slug, 'chapter' => $chapter->id] + ($preview ? ['pratonton' => 1] : [])) }}">
-                            <span class="stop-lamp" aria-hidden="true"><span class="flame"></span>
-                                <svg viewBox="0 0 64 64"><path d="M10 34h44l-4 13a8 8 0 0 1-7.7 6H21.7A8 8 0 0 1 14 47z"/></svg>
-                            </span>
+                            <span class="stop-lamp" aria-hidden="true">@include('player.partials.star')</span>
                             <span class="stop-label">
                                 <span class="stop-number">Bab {{ $i + 1 }}</span>
                                 <span class="stop-title">{{ $chapter->revision?->title }}</span>

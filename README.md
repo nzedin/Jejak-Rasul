@@ -1,4 +1,4 @@
-# Jejak Rasul
+# Jejak Sirah
 
 Kembara sirah interaktif. Pemain menjadi watak rekaan yang menyaksikan peristiwa sirah, dan setiap babak ditanda dengan label kesahihan serta dipautkan kepada sumber rujukan yang disemak.
 
@@ -18,14 +18,14 @@ Projek sumber terbuka (open source).
 ## Pasang (Laragon)
 
 ```bash
-git clone https://github.com/nzedin/Jejak-Rasul.git jejak-rasul
-cd jejak-rasul
+git clone https://github.com/nzedin/Jejak-Rasul.git jejak-sirah
+cd jejak-sirah
 composer install
 cp .env.example .env
 php artisan key:generate
 ```
 
-Cipta pangkalan data `jejak_rasul` dalam Laragon (HeidiSQL), kemudian:
+Cipta pangkalan data `jejak_sirah` dalam Laragon (HeidiSQL), kemudian:
 
 ```bash
 php artisan migrate --seed
@@ -33,9 +33,9 @@ php artisan migrate --seed
 
 | Paparan | Alamat |
 |---|---|
-| **Pemain** | http://jejak-rasul.test/ |
-| **Panel kandungan** (penulis/penyemak) | http://jejak-rasul.test/panel |
-| **Pratonton draf** (selepas log masuk panel) | http://jejak-rasul.test/?pratonton=1 |
+| **Pemain** | http://jejak-sirah.test/ |
+| **Panel kandungan** (penulis/penyemak) | http://jejak-sirah.test/panel |
+| **Pratonton draf** (selepas log masuk panel) | http://jejak-sirah.test/?pratonton=1 |
 
 Atau `php artisan serve` → http://127.0.0.1:8000.
 
@@ -45,15 +45,15 @@ Akaun contoh daripada seeder (kata laluan: `password`, **tukar sebelum dipasang 
 
 | Peranan  | E-mel                     |
 |----------|---------------------------|
-| Admin    | admin@jejakrasul.test     |
-| Penulis  | penulis@jejakrasul.test   |
-| Penyemak | penyemak@jejakrasul.test  |
+| Admin    | admin@jejaksirah.test     |
+| Penulis  | penulis@jejaksirah.test   |
+| Penyemak | penyemak@jejaksirah.test  |
 
 Seeder juga mencipta rangka arka **Hijrah** (10 bab, semuanya draf) dan senarai sumber utama tanpa nombor rujukan. Butiran rujukan perlu diisi daripada naskhah sebenar.
 
 ## Tema
 
-Panel kandungan menggunakan tema yang sama dengan paparan pemain: mod gelap, langit malam beranimasi, warna emas pelita dan tajuk berfont serif. Tema dimuatkan daripada `public/css/panel.css` melalui render hook Filament, jadi tiada langkah build diperlukan.
+Panel kandungan menggunakan tema yang sama dengan paparan pemain: mod gelap, langit malam beranimasi, warna emas, lambang bulan sabit & jejak, dan tajuk berfont serif. Tema dimuatkan daripada `public/css/panel.css` melalui render hook Filament, jadi tiada langkah build diperlukan.
 
 ## Latar babak
 

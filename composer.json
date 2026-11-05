@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "nzedin/jejak-rasul",
+    "name": "nzedin/jejak-sirah",
     "type": "project",
-    "description": "Jejak Rasul — kembara sirah interaktif dengan kandungan yang disemak.",
+    "description": "Jejak Sirah — kembara sirah interaktif dengan kandungan yang disemak.",
     "keywords": [
         "sirah",
         "laravel",
