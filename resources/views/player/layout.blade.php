@@ -7,8 +7,8 @@
     <meta name="description" content="Kembara sirah interaktif dengan sumber yang disemak.">
     <meta name="theme-color" content="#0d1726">
     <script>document.documentElement.classList.add('js')</script>
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('css/jejak.css') }}">
+    <link rel="icon" href="{{ \App\Support\Asset::url('favicon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ \App\Support\Asset::url('css/jejak.css') }}">
 </head>
 <body class="@yield('body-class')">
     @if ($preview ?? false)
@@ -39,7 +39,7 @@
         </p>
     </footer>
 
-    <script src="{{ asset('js/jejak.js') }}" defer></script>
+    <script src="{{ \App\Support\Asset::url('js/jejak.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

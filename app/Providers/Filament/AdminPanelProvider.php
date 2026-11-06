@@ -10,6 +10,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use App\Support\Asset;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use Filament\Widgets\AccountWidget;
@@ -50,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Jejak Sirah — Panel Kandungan')
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.4rem')
-            ->favicon(asset('favicon.svg'))
+            ->favicon(Asset::url('favicon.svg'))
             // Tema sama dengan paparan pemain: malam padang pasir + emas.
             ->darkMode(true, isForced: true)
             ->colors([
@@ -62,7 +63,7 @@ class AdminPanelProvider extends PanelProvider
                 'info' => Color::hex('#7aa2e0'),
             ])
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => new HtmlString(
-                '<link rel="stylesheet" href="'.e(asset('css/panel.css')).'">'
+                '<link rel="stylesheet" href="'.e(Asset::url('css/panel.css')).'">'
             ))
             ->renderHook(PanelsRenderHook::BODY_START, fn () => view('filament.night-sky'))
             ->navigationGroups([
