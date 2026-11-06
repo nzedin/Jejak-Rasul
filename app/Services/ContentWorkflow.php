@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\Revision;
 use App\Enums\RevisionStatus;
 use App\Exceptions\WorkflowException;
+use App\Models\ChapterMedia;
 use App\Models\Choice;
 use App\Models\QuizQuestion;
 use App\Models\Review;
@@ -104,7 +105,7 @@ class ContentWorkflow
     |--------------------------------------------------------------------------
     */
 
-    public function submitItem(Choice|QuizQuestion $item, User $user): void
+    public function submitItem(Choice|QuizQuestion|ChapterMedia $item, User $user): void
     {
         if (! $user->canWrite()) {
             throw new WorkflowException('Hanya penulis atau admin boleh menghantar kandungan.');
@@ -117,7 +118,7 @@ class ContentWorkflow
         $item->forceFill(['status' => RevisionStatus::Submitted])->saveQuietly();
     }
 
-    public function approveItem(Choice|QuizQuestion $item, User $reviewer, ?string $comment = null): void
+    public function approveItem(Choice|QuizQuestion|ChapterMedia $item, User $reviewer, ?string $comment = null): void
     {
         $this->ensureCanReview($item, $reviewer);
 
@@ -131,7 +132,7 @@ class ContentWorkflow
         });
     }
 
-    public function requestChangesItem(Choice|QuizQuestion $item, User $reviewer, string $comment): void
+    public function requestChangesItem(Choice|QuizQuestion|ChapterMedia $item, User $reviewer, string $comment): void
     {
         $this->ensureCanReview($item, $reviewer);
 

@@ -5,6 +5,7 @@ namespace App\Filament\Actions;
 use App\Contracts\Revision;
 use App\Enums\RevisionStatus;
 use App\Exceptions\WorkflowException;
+use App\Models\ChapterMedia;
 use App\Models\Choice;
 use App\Models\QuizQuestion;
 use App\Services\ContentWorkflow;
@@ -147,7 +148,7 @@ class WorkflowActions
 
     private static function isItem(Model $target): bool
     {
-        return $target instanceof Choice || $target instanceof QuizQuestion;
+        return $target instanceof Choice || $target instanceof QuizQuestion || $target instanceof ChapterMedia;
     }
 
     private static function canReview(Model $record, ?Closure $resolve): bool

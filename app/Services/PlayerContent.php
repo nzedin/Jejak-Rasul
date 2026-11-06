@@ -87,6 +87,15 @@ class PlayerContent
             ->first();
     }
 
+    /** Media (gambar/video/pautan) yang diluluskan, ikut susunan. */
+    public function media(Chapter $chapter): Collection
+    {
+        return $chapter->media()
+            ->with('source')
+            ->when(! $this->preview, fn ($q) => $q->where('status', RevisionStatus::Approved))
+            ->get();
+    }
+
     public function quiz(Chapter $chapter): Collection
     {
         return $chapter->quizQuestions()

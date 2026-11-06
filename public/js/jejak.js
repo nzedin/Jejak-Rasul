@@ -249,7 +249,19 @@
         bars.forEach((b, i) => b.classList.toggle('is-done', i < index || (i === index && (!group || group.shown >= group.blocks.length))));
     }
 
+    // Hentikan video apabila beralih skrin.
+    function pauseMedia(slide) {
+        slide.querySelectorAll('video').forEach((v) => v.pause());
+        slide.querySelectorAll('iframe').forEach((f) => {
+            try {
+                f.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: '' }), '*');
+                f.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*');
+            } catch (e) { /* abaikan */ }
+        });
+    }
+
     function show(i) {
+        if (slides[index] && i !== index) pauseMedia(slides[index]);
         index = Math.max(0, Math.min(i, slides.length - 1));
         story.scrollTop = 0;
         slides[index].scrollTop = 0;
@@ -275,7 +287,7 @@
 
     // Sentuh skrin: kiri 30% = undur, selebihnya = teruskan. Abaikan butang & panel.
     story.addEventListener('click', (e) => {
-        if (e.target.closest('button, a, textarea, input, .sheet, .panel-glass, .after, .story-top')) return;
+        if (e.target.closest('button, a, textarea, input, video, iframe, .sheet, .panel-glass, .after, .story-top')) return;
         if (e.clientX < window.innerWidth * 0.3) prev(); else next();
     });
 

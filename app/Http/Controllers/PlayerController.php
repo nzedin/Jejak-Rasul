@@ -47,6 +47,8 @@ class PlayerController
 
         $current = $chapters[$index];
         $scenes = $content->scenes($current);
+        $media = $content->media($current);
+        $sceneIds = $scenes->pluck('id')->all();
 
         return view('player.chapter', [
             'arc' => $arc,
@@ -57,6 +59,9 @@ class PlayerController
             'sources' => $scenes->flatMap(fn ($s) => $s->revision->sources)->unique('id')->values(),
             'choice' => $content->choice($current),
             'quiz' => $content->quiz($current),
+            // Media disusun ikut babak; media tanpa babak (atau babaknya belum
+            // diterbitkan) dipapar selepas babak terakhir.
+            'mediaAfter' => $media->groupBy(fn ($m) => in_array($m->after_scene_id, $sceneIds, true) ? $m->after_scene_id : 'end'),
             'previous' => $chapters[$index - 1] ?? null,
             'next' => $chapters[$index + 1] ?? null,
             'preview' => $content->preview,

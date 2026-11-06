@@ -99,12 +99,21 @@
                 </div>
             @endif
         </section>
+
+        @foreach ($mediaAfter[$scene->id] ?? [] as $m => $media)
+            @include('player.partials.media-slide', ['media' => $media, 'setting' => $scene->setting?->value, 'loopIndex' => $scene->id * 10 + $m])
+        @endforeach
     @empty
         <section class="slide slide-center" data-slide>
             @include('player.partials.scene-bg', ['setting' => 'gurun_malam', 'seed' => 5])
             <div class="slide-inner"><p class="lead">Babak untuk bab ini sedang disemak. Datang semula nanti.</p></div>
         </section>
     @endforelse
+
+    {{-- Media tanpa babak tertentu: selepas babak terakhir --}}
+    @foreach ($mediaAfter['end'] ?? [] as $m => $media)
+        @include('player.partials.media-slide', ['media' => $media, 'setting' => $lastSetting, 'loopIndex' => $m])
+    @endforeach
 
     {{-- Pilihan Yusuf --}}
     @if ($choice)

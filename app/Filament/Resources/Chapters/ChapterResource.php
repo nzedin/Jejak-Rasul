@@ -8,6 +8,7 @@ use App\Filament\Resources\Chapters\Pages\EditChapter;
 use App\Filament\Resources\Chapters\Pages\ListChapters;
 use App\Filament\Resources\Chapters\RelationManagers\ChapterRevisionsRelationManager;
 use App\Filament\Resources\Chapters\RelationManagers\ChoicesRelationManager;
+use App\Filament\Resources\Chapters\RelationManagers\MediaRelationManager;
 use App\Filament\Resources\Chapters\RelationManagers\QuizQuestionsRelationManager;
 use App\Filament\Resources\Chapters\RelationManagers\ScenesRelationManager;
 use App\Models\Chapter;
@@ -108,6 +109,7 @@ class ChapterResource extends Resource
     {
         return [
             ScenesRelationManager::class,
+            MediaRelationManager::class,
             ChoicesRelationManager::class,
             QuizQuestionsRelationManager::class,
             ChapterRevisionsRelationManager::class,

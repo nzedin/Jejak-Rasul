@@ -34,6 +34,11 @@ class Chapter extends Model
         return $this->hasMany(Choice::class);
     }
 
+    public function media(): HasMany
+    {
+        return $this->hasMany(ChapterMedia::class)->orderBy('position');
+    }
+
     public function quizQuestions(): HasMany
     {
         return $this->hasMany(QuizQuestion::class)->orderBy('position');

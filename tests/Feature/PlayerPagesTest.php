@@ -98,4 +98,26 @@ class PlayerPagesTest extends TestCase
 
         $this->get('/')->assertOk()->assertDontSee('Arka kosong');
     }
+
+    public function test_only_approved_media_is_embedded(): void
+    {
+        $writer = User::factory()->writer()->create();
+        $reviewer = User::factory()->reviewer()->create();
+        $wf = app(ContentWorkflow::class);
+
+        $arc = Arc::create(['title' => 'Hijrah', 'slug' => 'hijrah', 'is_published' => true]);
+        $chapter = app(ChapterEditor::class)->create($arc, ['title' => 'Bab'], $writer);
+        $wf->submit($chapter->latestRevision, $writer);
+        $wf->approve($chapter->latestRevision->fresh(), $reviewer);
+
+        $approved = \App\Models\ChapterMedia::create(['chapter_id' => $chapter->id, 'type' => 'video', 'title' => 'Video lulus', 'url' => 'https://youtu.be/dQw4w9WgXcQ', 'edited_by' => $writer->id]);
+        $wf->submitItem($approved, $writer);
+        $wf->approveItem($approved->fresh(), $reviewer);
+        \App\Models\ChapterMedia::create(['chapter_id' => $chapter->id, 'type' => 'pautan', 'title' => 'Pautan draf', 'url' => 'https://example.com', 'edited_by' => $writer->id]);
+
+        $this->get("/arka/hijrah/bab/{$chapter->id}")
+            ->assertSee('Video lulus')
+            ->assertSee('youtube-nocookie.com/embed/dQw4w9WgXcQ', false)
+            ->assertDontSee('Pautan draf');
+    }
 }

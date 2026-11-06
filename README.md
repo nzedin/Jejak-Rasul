@@ -55,11 +55,27 @@ Seeder juga mencipta rangka arka **Hijrah** (10 bab, semuanya draf) dan senarai 
 
 Panel kandungan menggunakan tema yang sama dengan paparan pemain: mod gelap, langit malam beranimasi, warna emas, lambang bulan sabit & jejak, dan tajuk berfont serif. Tema dimuatkan daripada `public/css/panel.css` melalui render hook Filament, jadi tiada langkah build diperlukan.
 
+## Media dalam bab
+
+Dalam **Kandungan → Bab → (pilih bab) → Media**, penulis boleh tambah:
+
+- **Gambar**: muat naik JPG/PNG/WebP (maks. 5MB)
+- **Video**: tampal pautan **YouTube/Vimeo** (dibenamkan), atau muat naik MP4/WebM kecil (maks. 12MB)
+- **Pautan**: kad pautan ke laman luar (dibuka dalam tab baru)
+
+Setiap media boleh diletak **selepas babak tertentu**, ada keterangan, kredit dan sumber, dan mesti disahkan **tidak memaparkan Nabi ﷺ, para nabi, malaikat atau para sahabat**. Media melalui semakan yang sama (Hantar → Lulus); pemain hanya nampak media yang diluluskan.
+
+Fail yang dimuat naik disimpan dalam `storage/app/public/bab-media`. Jalankan sekali:
+
+```bash
+php artisan storage:link
+```
+
 ## Latar babak
 
 Setiap babak ada **latar visual** (Kota Makkah waktu malam, padang pasir malam/siang, dalam gua, pesisir pantai, oasis waktu fajar) yang dipilih dalam panel. Latar hanya landskap & objek — Nabi ﷺ dan sahabat tidak dipaparkan. Latar ialah hiasan, jadi ia tidak melalui aliran semakan.
 
-Selepas `git pull`, jalankan `php artisan migrate` untuk menambah lajur latar.
+Selepas `git pull`, jalankan `php artisan migrate` untuk menambah jadual/lajur baru.
 
 ## Aliran kandungan
 
